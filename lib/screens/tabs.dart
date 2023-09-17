@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals2/providers/favorites_provider.dart';
 
 import 'package:meals2/screens/categories.dart';
+import 'package:meals2/screens/filters.dart';
 import 'package:meals2/screens/meals.dart';
+import 'package:meals2/widgets/main_drawer.dart';
 
 class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({super.key});
@@ -21,6 +23,17 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
     });
   }
 
+  void _setScreen(Symbol screen) {
+    Navigator.pop(context);
+
+    // #meals is current screen, so no action
+    if (screen == #filters) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (ctx) => const FiltersScreen()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final favoriteMeals = ref.watch(favoritesProvider);
@@ -33,6 +46,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       appBar: AppBar(
         title: Text(tabs[_selectedPageIndex].title),
       ),
+      drawer: MainDrawer(onSelectScreen: _setScreen),
       body: tabs[_selectedPageIndex].content,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
