@@ -27,6 +27,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
     Navigator.pop(context);
 
     // #meals is current screen, so no action
+
     if (screen == #filters) {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (ctx) => const FiltersScreen()),
