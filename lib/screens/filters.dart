@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meals2/providers/filters_provider.dart';
 
-class FiltersScreen extends StatelessWidget {
+class FiltersScreen extends ConsumerWidget {
   const FiltersScreen({super.key});
 
+  void toggleFilter(WidgetRef ref, Filter filter, isChecked) {
+    ref.read(filtersProvider.notifier).setFilter(filter, isChecked);
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final themeContext = Theme.of(context);
+    final filterValues = ref.watch(filtersProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -14,8 +21,9 @@ class FiltersScreen extends StatelessWidget {
       body: Column(
         children: [
           SwitchListTile(
-            value: false,
-            onChanged: (isChecked) {},
+            value: filterValues[Filter.glutenFree]!,
+            onChanged: (isChecked) =>
+                toggleFilter(ref, Filter.glutenFree, isChecked),
             title: Text(
               'Gluten-free',
               style: themeContext.textTheme.titleLarge!.copyWith(
@@ -32,8 +40,9 @@ class FiltersScreen extends StatelessWidget {
             contentPadding: const EdgeInsets.only(left: 34, right: 22),
           ),
           SwitchListTile(
-            value: false,
-            onChanged: (isChecked) {},
+            value: filterValues[Filter.lactoseFree]!,
+            onChanged: (isChecked) =>
+                toggleFilter(ref, Filter.lactoseFree, isChecked),
             title: Text(
               'Lactose-free',
               style: themeContext.textTheme.titleLarge!.copyWith(
@@ -50,8 +59,9 @@ class FiltersScreen extends StatelessWidget {
             contentPadding: const EdgeInsets.only(left: 34, right: 22),
           ),
           SwitchListTile(
-            value: false,
-            onChanged: (isChecked) {},
+            value: filterValues[Filter.vegetarian]!,
+            onChanged: (isChecked) =>
+                toggleFilter(ref, Filter.vegetarian, isChecked),
             title: Text(
               'Vegetarian',
               style: themeContext.textTheme.titleLarge!.copyWith(
@@ -68,8 +78,9 @@ class FiltersScreen extends StatelessWidget {
             contentPadding: const EdgeInsets.only(left: 34, right: 22),
           ),
           SwitchListTile(
-            value: false,
-            onChanged: (isChecked) {},
+            value: filterValues[Filter.vegan]!,
+            onChanged: (isChecked) =>
+                toggleFilter(ref, Filter.vegan, isChecked),
             title: Text(
               'Vegan',
               style: themeContext.textTheme.titleLarge!.copyWith(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals2/providers/favorites_provider.dart';
+import 'package:meals2/providers/filters_provider.dart';
 
 import 'package:meals2/screens/categories.dart';
 import 'package:meals2/screens/filters.dart';
@@ -38,9 +39,16 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     final favoriteMeals = ref.watch(favoritesProvider);
+    final filteredMeals = ref.watch(filteredMealsProvider);
     final tabs = [
-      (title: 'Categories', content: const CategoriesScreen()),
-      (title: 'Favorites', content: MealsScreen(meals: favoriteMeals))
+      (
+        title: 'Categories',
+        content: CategoriesScreen(availableMeals: filteredMeals),
+      ),
+      (
+        title: 'Favorites',
+        content: MealsScreen(meals: favoriteMeals),
+      )
     ];
 
     return Scaffold(
